@@ -1,26 +1,27 @@
-# Final Audit
+# Final Audit — Lab 04
 
-## Recovery
-The anti-false-missing recovery sequence was completed across current conversation attachments, conversation file resources, Library files, previously generated ZIPs, prior audit information, GitHub reference, and the existing working project directory. The latest generated project was selected because it was the most recent FINAL artifact in the current conversation and Library.
+## Submission gate
 
-## Dataset recovery
-The real `BostonHousing.csv` was subsequently supplied and recovered. It contains 506 rows and 14 columns: 13 features plus `MEDV`, with zero missing values. It is stored as `data/raw/boston_housing.csv`. The loader normalizes header case/whitespace, so lowercase CSV headers are accepted.
+The project is **READY only when the GitHub Actions training workflow completes successfully** and the repository contains real generated artifacts.
 
-## Runtime verification
-- Requirements installation: PASS
-- Python compilation: PASS
-- Training: PASS (`ACTUAL TRAINING PASS`)
-- Metrics generation: PASS
-- Figures generation: PASS
-- Model save: PASS
-- Scaler save: PASS
-- Independent model/scaler load: PASS
-- Prediction: PASS
-- Notebook clean execution: PASS; executed notebook has no error outputs
-- Artifact consistency: PASS
+### Mandatory checks
 
-## Anti-fabrication
-No synthetic fallback is used. Numerical results are read from the generated artifacts after actual execution.
+- [x] California Housing schema is explicitly enforced.
+- [x] Eight required input features and `median_house_value` target.
+- [x] 80/20 train-validation split with `random_state=42`.
+- [x] Official test CSV reserved for final evaluation.
+- [x] StandardScaler fitted on training partition only.
+- [x] PyTorch Dataset/DataLoader.
+- [x] MLP `8 → 32 → 16 → 1` with ReLU hidden layers and linear output.
+- [x] Adam + MSELoss, batch 32, learning rate 0.001, 100 epochs.
+- [x] CPU/CUDA support.
+- [x] MAE/MSE/RMSE/R².
+- [x] Linear Regression, Decision Tree and Random Forest baselines.
+- [x] EDA requirements covered.
+- [x] Prediction smoke test.
+- [x] No synthetic fallback.
+- [x] Automated GitHub Actions training and artifact generation.
 
-## Final status
-**READY TO SUBMIT**
+### Final status
+
+Do not mark `READY` until the workflow log confirms dataset validation, tests, training, and prediction all pass.
