@@ -1,3 +1,11 @@
 # Algorithm Selection
 
-The assignment asks for an MLP regression model and comparison with Linear Regression, Decision Tree Regression, and Random Forest Regression. The MLP is implemented in PyTorch with ReLU hidden layers, a single linear output neuron, MSELoss, and Adam. The baselines are scikit-learn regressors.
+The lab requires a Multilayer Perceptron (MLP) for regression, so the MLP is the primary model.
+
+Classical baselines:
+
+- Linear Regression — simple linear reference.
+- Decision Tree Regression — non-linear tree-based reference.
+- Random Forest Regression — ensemble tree-based reference.
+
+All models are evaluated on the same official California Housing test CSV using MAE, MSE, RMSE and R². The comparison documents empirical performance rather than assuming the MLP must have the lowest error.
