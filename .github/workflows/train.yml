@@ -1,0 +1,65 @@
+name: Train Lab 04
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  train:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Download official California Housing CSVs
+        run: |
+          mkdir -p data/raw
+          curl -L --fail --retry 3 -o data/raw/california_housing_train.csv https://download.mlcc.google.com/mledu-datasets/california_housing_train.csv
+          curl -L --fail --retry 3 -o data/raw/california_housing_test.csv https://download.mlcc.google.com/mledu-datasets/california_housing_test.csv
+
+      - name: Validate dataset
+        run: |
+          python - <<'PY'
+          import pandas as pd
+          expected = ['longitude','latitude','housing_median_age','total_rooms','total_bedrooms','population','households','median_income','median_house_value']
+          for f, n in [('data/raw/california_housing_train.csv',17000), ('data/raw/california_housing_test.csv',3000)]:
+              df = pd.read_csv(f)
+              assert list(df.columns) == expected
+              assert len(df) == n, (f, len(df))
+              assert df[expected].isna().sum().sum() == 0
+              print(f, df.shape)
+          PY
+
+      - name: Run tests
+        run: pytest -q
+
+      - name: Train and evaluate
+        run: python src/train.py
+
+      - name: Smoke-test prediction
+        run: python src/predict.py --values -122.05 37.37 27 3885 661 1537 606 6.6085
+
+      - name: Commit generated real artifacts
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/raw/california_housing_train.csv data/raw/california_housing_test.csv models results
+          if git diff --cached --quiet; then
+            echo 'No generated changes to commit.'
+          else
+            git commit -m 'chore: generate California Housing training artifacts'
+            git push
+          fi
