@@ -17,7 +17,7 @@
     "train": 13600,
     "validation": 3400
   },
-  "test_source": "official california_housing_test.csv; never used for fitting or model selection",
+  "test_source": "official california_housing_test.csv; never used for fitting or scaler fitting",
   "seed": 42,
   "architecture": "8 -> 32 -> 16 -> 1",
   "activation": "ReLU hidden layers; linear output",
