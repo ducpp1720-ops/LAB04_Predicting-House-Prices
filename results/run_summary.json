@@ -1,0 +1,56 @@
+{
+  "dataset": "California Housing (Google MLCC train/test CSV)",
+  "train_samples": 17000,
+  "official_test_samples": 3000,
+  "features": [
+    "longitude",
+    "latitude",
+    "housing_median_age",
+    "total_rooms",
+    "total_bedrooms",
+    "population",
+    "households",
+    "median_income"
+  ],
+  "target": "median_house_value",
+  "internal_split": {
+    "train": 13600,
+    "validation": 3400
+  },
+  "test_source": "official california_housing_test.csv; never used for fitting or model selection",
+  "seed": 42,
+  "architecture": "8 -> 32 -> 16 -> 1",
+  "activation": "ReLU hidden layers; linear output",
+  "loss": "MSELoss",
+  "optimizer": "Adam",
+  "learning_rate": 0.001,
+  "batch_size": 32,
+  "epochs": 100,
+  "device": "cpu",
+  "metrics": {
+    "MLP": {
+      "MAE": 47580.53515625,
+      "MSE": 4509776896.0,
+      "RMSE": 67154.87246656045,
+      "R2": 0.6474478244781494
+    },
+    "Linear Regression": {
+      "MAE": 50352.1796875,
+      "MSE": 4867195392.0,
+      "RMSE": 69765.28787298164,
+      "R2": 0.6195065975189209
+    },
+    "Decision Tree Regression": {
+      "MAE": 40981.143035347915,
+      "MSE": 3913714617.1587915,
+      "RMSE": 62559.688435595584,
+      "R2": 0.6940450034043514
+    },
+    "Random Forest Regression": {
+      "MAE": 32009.421856666664,
+      "MSE": 2428523581.9598584,
+      "RMSE": 49280.052576675065,
+      "R2": 0.8101499478287498
+    }
+  }
+}
